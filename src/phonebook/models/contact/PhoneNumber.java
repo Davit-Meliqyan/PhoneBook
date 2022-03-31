@@ -60,7 +60,7 @@ public class PhoneNumber {
         if (phoneNumber == null || phoneNumber.equals("")) {
             return false;
         }
-        if ("0123456789+".indexOf(phoneNumber.charAt(0)) == -1 ) {
+        if ("0123456789+".indexOf(phoneNumber.charAt(0)) == -1) {
             return false;
         }
         if (phoneNumber.length() > 32) {

@@ -9,13 +9,12 @@ import java.util.Scanner;
 
 public class Service {
 
-    static Scanner scanner= new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
 
     public static void start() {
 
         ArrayList<ContactData> phoneBook = new ArrayList<>();
-
 
         String str = "";
 
@@ -39,6 +38,9 @@ public class Service {
                 case "show":
                     print(phoneBook);
                     break;
+                case "search":
+                    print(search(phoneBook));
+                    break;
                 case "exit":
                     break;
                 default:
@@ -56,6 +58,19 @@ public class Service {
         System.out.println("new contact is created");
     }
 
+    public static ArrayList<ContactData> search( ArrayList<ContactData> phoneBook) {
+        System.out.println("Input required user: ");
+        String str = scanner.nextLine();
+        ArrayList<ContactData> searchResult = new ArrayList<>();
+        for (ContactData c : phoneBook) {
+            User user = c.getUser();
+            if (str.equals(user.getName()) || str.equals(user.getLastName())) {
+                searchResult.add(c);
+            }
+        }
+        return searchResult;
+    }
+
     public static void delete() {
         System.out.println("delete");
     }
@@ -64,12 +79,12 @@ public class Service {
         System.out.println("legal command list");
 
     }
-    public static void print(ArrayList<ContactData> phoneBook) {
 
+    public static void print(ArrayList<ContactData> phoneBook) {
         for (ContactData c : phoneBook) {
             System.out.println(c);
         }
-
+        System.out.println();
     }
 
 }

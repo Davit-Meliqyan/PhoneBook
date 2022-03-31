@@ -49,13 +49,12 @@ public class Contact {
             s.append(phoneNumber).append('\n');
         }
 
-        if(!Email.isEmail(email.getEmail())){
-            return s + "\n"   + company;
-        }
-        else return s + "\n" + email + "\n" + company;
+        if (!Email.isEmail(email.getEmail())) {
+            return s + company;
+        } else return s + email.toString() + '\n' + company;
     }
 
-    public static Contact createContact(){
+    public static Contact createContact() {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Creating contact");
@@ -66,19 +65,29 @@ public class Contact {
         while (true) {
             System.out.println("do you want to input another phone number? ");
             String str = scanner.nextLine();
-            if(str.equals("no")){
+            if (str.equals("no")) {
                 break;
             }
             if (str.equals("yes")) {
-                System.out.println("input another phone number: ");
                 phoneNumbers.add(PhoneNumber.createPhoneNumber());
             }
         }
 
         Email email = Email.createEmail();
+        String company = "";
 
-        System.out.println("Enter company: ");
-        String company = scanner.nextLine();
+        while (true) {
+            System.out.println("do you want to input company? ");
+            String str = scanner.nextLine();
+            if (str.equals("no")) {
+                break;
+            }
+            if (str.equals("yes")) {
+                System.out.println("Enter company: ");
+                company = scanner.nextLine();
+                break;
+            }
+        }
 
 
         return new Contact(phoneNumbers, email, company);

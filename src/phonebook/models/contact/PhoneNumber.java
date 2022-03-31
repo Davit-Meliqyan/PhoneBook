@@ -6,6 +6,8 @@ public class PhoneNumber {
     private String phoneNumber;
     private PhoneNumberType phoneNumberType;
 
+    static Scanner scanner = new Scanner(System.in);
+
     public PhoneNumber(String phoneNumber, PhoneNumberType phoneNumberType) {
         this.phoneNumber = phoneNumber;
         this.phoneNumberType = phoneNumberType;
@@ -29,16 +31,47 @@ public class PhoneNumber {
 
     @Override
     public String toString() {
-        return phoneNumber + "\n" + phoneNumberType;
+        if (phoneNumberType == null) {
+            return phoneNumber;
+        }
+        return phoneNumber + " " + phoneNumberType;
     }
 
     public static PhoneNumber createPhoneNumber() {
 
-        Scanner scanner = new Scanner(System.in);
+        String phoneNumber = "";
+
+
         System.out.println("input phone number: ");
-        String phoneNumber = scanner.nextLine();
+
+        while (true) {
+            phoneNumber = scanner.nextLine();
+            if (isPhoneNumber(phoneNumber)) {
+                break;
+            }
+            System.out.println("Not legal phone number. Enter correct phone number! ");
+        }
         PhoneNumberType phoneNumberType = PhoneNumberType.selectPhoneNumberType();
 
         return new PhoneNumber(phoneNumber, phoneNumberType);
+    }
+
+    public static boolean isPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.equals("")) {
+            return false;
+        }
+        if ("0123456789+".indexOf(phoneNumber.charAt(0)) == -1 ) {
+            return false;
+        }
+        if (phoneNumber.length() > 32) {
+            return false;
+        }
+        for (int i = 1; i < phoneNumber.length(); i++) {
+
+            if ("0123456789".indexOf(phoneNumber.charAt(i)) == -1) {
+                return false;
+            }
+        }
+        return true;
     }
 }

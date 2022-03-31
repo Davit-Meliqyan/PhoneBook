@@ -5,6 +5,7 @@ import phonebook.models.contact.Contact;
 import phonebook.models.user.User;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Service {
@@ -46,9 +47,7 @@ public class Service {
                 default:
                     System.out.println("not legal command");
             }
-            System.out.println();
         }
-
         System.out.println("GAME OVER");
     }
 
@@ -58,13 +57,17 @@ public class Service {
         System.out.println("new contact is created");
     }
 
-    public static ArrayList<ContactData> search( ArrayList<ContactData> phoneBook) {
+    public static ArrayList<ContactData> search(ArrayList<ContactData> phoneBook) {
         System.out.println("Input required user: ");
         String str = scanner.nextLine();
         ArrayList<ContactData> searchResult = new ArrayList<>();
         for (ContactData c : phoneBook) {
             User user = c.getUser();
-            if (str.equals(user.getName()) || str.equals(user.getLastName())) {
+            if (str.toLowerCase(Locale.ROOT).equals(user.getName().toLowerCase(Locale.ROOT)) ||
+                    str.toLowerCase(Locale.ROOT).equals(user.getLastName().toLowerCase(Locale.ROOT)) ||
+                    str.toLowerCase(Locale.ROOT).equals(user.getName().toLowerCase(Locale.ROOT) + " " + user.getLastName().toLowerCase(Locale.ROOT)) ||
+                    str.toLowerCase(Locale.ROOT).equals(user.getLastName().toLowerCase(Locale.ROOT) + " " + user.getName().toLowerCase(Locale.ROOT)))
+            {
                 searchResult.add(c);
             }
         }

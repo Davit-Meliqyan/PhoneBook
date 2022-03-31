@@ -7,7 +7,6 @@ public class Contact {
 
     private ArrayList<PhoneNumber> phoneNumbers;
     private Email email;
-
     private String company;
 
     public Contact(ArrayList<PhoneNumber> phoneNumbers, Email email, String company) {
@@ -50,8 +49,8 @@ public class Contact {
         }
 
         if (!Email.isEmail(email.getEmail())) {
-            return s + company;
-        } else return s + email.toString() + '\n' + company;
+            return s + company + '\n';
+        } else return s + email.toString() + '\n' + company + '\n';
     }
 
     public static Contact createContact() {
@@ -88,8 +87,6 @@ public class Contact {
                 break;
             }
         }
-
-
         return new Contact(phoneNumbers, email, company);
     }
 }

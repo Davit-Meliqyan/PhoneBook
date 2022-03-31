@@ -38,7 +38,7 @@ public class Email {
     static Scanner scanner = new Scanner(System.in);
 
     public static Email createEmail() {
-        System.out.println("Enter email");
+        System.out.println("Enter email:");
         String email = scanner.nextLine();
         if (isEmail(email)) {
             return new Email(email, emailType(email));
@@ -56,13 +56,28 @@ public class Email {
         if (email.indexOf('@') > email.indexOf('.')) {
             return false;
         }
-        if (email.charAt(0) == '.' || email.charAt(0) == '@' || email.charAt(email.length() - 1) == '@' || email.charAt(email.length() - 1) == '.') {
+        if (email.charAt(0) == '.' || email.charAt(0) == '@' ||
+                email.charAt(email.length() - 1) == '@' ||
+                email.charAt(email.length() - 1) == '.') {
             return false;
         }
         return email.indexOf('.') == email.lastIndexOf('.') && email.indexOf('@') == email.lastIndexOf('@');
     }
 
+//    public static String emailType(String email) {
+//        return email.substring(email.indexOf('@') + 1);
+//    }
+
     public static String emailType(String email) {
-        return email.substring(email.indexOf('@') + 1);
+        String emailType = "";
+        String emailDomain = email.substring(email.indexOf('@') + 1);
+        if (emailDomain.toLowerCase().equals("gmail.com")) {
+            emailType = "GMAIL";
+        } else if (emailDomain.toLowerCase().equals("icloud.com")) {
+            emailType = "ICLOUD";
+        } else {
+            emailType = "OTHER";
+        }
+        return emailType;
     }
 }

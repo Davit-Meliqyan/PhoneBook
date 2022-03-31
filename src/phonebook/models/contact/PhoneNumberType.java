@@ -9,18 +9,15 @@ public enum PhoneNumberType {
     SCHOOL;
 
     public static PhoneNumberType selectPhoneNumberType() {
-
-        System.out.println("Select phone number type: ");
-        System.out.println("0 - not selected");
-        System.out.println("1 - home");
-        System.out.println("2 - mobile");
-        System.out.println("3 - work");
-        System.out.println("4 - school");
-
+        System.out.println("Select phone number type:");
+        System.out.println("0 - Not specified");
+        System.out.println("1 - Home");
+        System.out.println("2 - Mobile");
+        System.out.println("3 - Work");
+        System.out.println("4 - School");
         Scanner scanner = new Scanner(System.in);
         String str = scanner.nextLine();
-
-        switch (str) {
+        switch (str.toLowerCase()) {
             case "0":
                 return null;
             case "home":
@@ -36,7 +33,7 @@ public enum PhoneNumberType {
             case "4":
                 return PhoneNumberType.SCHOOL;
             default:
-                System.out.println("Enter correct phone number type! ");
+                System.out.println("Please enter a correct phone number type:");
                 return selectPhoneNumberType();
         }
     }

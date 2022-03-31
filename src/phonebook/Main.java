@@ -13,7 +13,7 @@ public class Main {
 //        String n = "sdsd@gmail.com";
 //        System.out.println(Email.isEmail(n));
 //        System.out.println(Email.createEmail());
-        System.out.println(User.createUser());
+   //     System.out.println(User.createUser());
         System.out.println(Contact.createContact());
     }
 }

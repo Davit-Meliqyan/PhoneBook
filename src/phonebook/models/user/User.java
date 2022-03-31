@@ -27,6 +27,11 @@ public class User {
         this.lastName = lastName;
     }
 
+    @Override
+    public String toString() {
+        return name + ' ' + lastName;
+    }
+
     public static User createUser() {
 
         Scanner scanner = new Scanner(System.in);

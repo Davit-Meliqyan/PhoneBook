@@ -46,25 +46,17 @@ public class Service {
 
         ArrayList<ContactData> phoneBook = new ArrayList<>();
 
-        User user = User.createUser();
-        Contact contact = Contact.createContact();
-
-        System.out.println("input phone number: ");
-        String phoneNumber = scanner.nextLine();
-        ArrayList<String> phoneNumbers = new ArrayList<>();
-        phoneNumbers.add(phoneNumber);
-
         String str = scanner.nextLine();
 
-        while (!str.equals("no")) {
-            System.out.println("do you want to input another phone number? ");
-            str = scanner.nextLine();
-            if (str.equals("yes")) {
-                System.out.println("input another phone number: ");
-                phoneNumber = scanner.nextLine();
-                phoneNumbers.add(phoneNumber);
-            }
-        }
+//        while (!str.equals("no")) {
+//            System.out.println("do you want to input another phone number? ");
+//            str = scanner.nextLine();
+//            if (str.equals("yes")) {
+//                System.out.println("input another phone number: ");
+//                phoneNumber = scanner.nextLine();
+//                phoneNumbers.add(phoneNumber);
+//            }
+//        }
 
 
         phoneBook.add(new ContactData());

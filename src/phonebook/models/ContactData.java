@@ -30,4 +30,6 @@ public class ContactData {
     public void setContact(Contact contact) {
         this.contact = contact;
     }
+
+
 }

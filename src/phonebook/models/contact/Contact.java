@@ -6,16 +6,13 @@ import java.util.Scanner;
 public class Contact {
 
     private ArrayList<PhoneNumber> phoneNumbers;
-    private ArrayList<Email> emails;
+    private Email email;
 
     private String company;
 
-    public Contact() {
-    }
-
-    public Contact(ArrayList<PhoneNumber> phoneNumbers, ArrayList<Email> emails, String company) {
+    public Contact(ArrayList<PhoneNumber> phoneNumbers, Email email, String company) {
         this.phoneNumbers = phoneNumbers;
-        this.emails = emails;
+        this.email = email;
         this.company = company;
     }
 
@@ -27,12 +24,12 @@ public class Contact {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public ArrayList<Email> getEmails() {
-        return emails;
+    public Email getEmail() {
+        return email;
     }
 
-    public void setEmails(ArrayList<Email> emails) {
-        this.emails = emails;
+    public void setEmails(Email email) {
+        this.email = email;
     }
 
     public String getCompany() {
@@ -43,9 +40,19 @@ public class Contact {
         this.company = company;
     }
 
+
     @Override
     public String toString() {
-        return  phoneNumbers.toString() + "\n" + emails.toString() + "\n" + company;
+
+        StringBuilder s = new StringBuilder();
+        for (PhoneNumber phoneNumber : phoneNumbers) {
+            s.append(phoneNumber).append('\n');
+        }
+
+        if(!Email.isEmail(email.getEmail())){
+            return s + "\n"   + company;
+        }
+        else return s + "\n" + email + "\n" + company;
     }
 
     public static Contact createContact(){
@@ -54,11 +61,26 @@ public class Contact {
         System.out.println("Creating contact");
         ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(PhoneNumber.createPhoneNumber());
-        ArrayList<Email> emails = new ArrayList<>();
-        emails.add(Email.createEmail());
+
+
+        while (true) {
+            System.out.println("do you want to input another phone number? ");
+            String str = scanner.nextLine();
+            if(str.equals("no")){
+                break;
+            }
+            if (str.equals("yes")) {
+                System.out.println("input another phone number: ");
+                phoneNumbers.add(PhoneNumber.createPhoneNumber());
+            }
+        }
+
+        Email email = Email.createEmail();
 
         System.out.println("Enter company: ");
         String company = scanner.nextLine();
-        return new Contact(phoneNumbers,emails,company);
+
+
+        return new Contact(phoneNumbers, email, company);
     }
 }

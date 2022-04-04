@@ -32,7 +32,10 @@ public class Email {
 
     @Override
     public String toString() {
-        return email + "\n" + emailType;
+        if(email == null){
+            return null;
+        }
+        return "email: "+email + "\n" + "emailType: "+emailType;
     }
 
     static Scanner scanner = new Scanner(System.in);

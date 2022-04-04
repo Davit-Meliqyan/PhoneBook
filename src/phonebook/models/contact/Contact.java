@@ -43,14 +43,20 @@ public class Contact {
     @Override
     public String toString() {
 
-        StringBuilder s = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         for (PhoneNumber phoneNumber : phoneNumbers) {
-            s.append(phoneNumber).append('\n');
+            str.append(phoneNumber).append('\n');
         }
 
         if (!Email.isEmail(email.getEmail())) {
-            return s + company + '\n';
-        } else return s + email.toString() + '\n' + company + '\n';
+            if (company == null || company.length() == 0) {
+                return str + "" + '\n';
+            }
+            return str + "company: " + company + '\n';
+        } else if (company == null || company.length() == 0) {
+            return str + email.toString() + '\n' + "company: " + company + '\n';
+        }
+        return str + email.toString() + '\n' + "company: " + company + '\n';
     }
 
     public static Contact createContact() {
@@ -73,20 +79,10 @@ public class Contact {
         }
 
         Email email = Email.createEmail();
-        String company = "";
 
-        while (true) {
-            System.out.println("do you want to input company? ");
-            String str = scanner.nextLine();
-            if (str.equals("no")) {
-                break;
-            }
-            if (str.equals("yes")) {
-                System.out.println("Enter company: ");
-                company = scanner.nextLine();
-                break;
-            }
-        }
+        System.out.println("Enter company: ");
+        String company = scanner.nextLine();
+
         return new Contact(phoneNumbers, email, company);
     }
 }

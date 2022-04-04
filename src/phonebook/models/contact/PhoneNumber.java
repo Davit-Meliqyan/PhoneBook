@@ -41,7 +41,6 @@ public class PhoneNumber {
 
         String phoneNumber = "";
 
-
         System.out.println("input phone number: ");
 
         while (true) {

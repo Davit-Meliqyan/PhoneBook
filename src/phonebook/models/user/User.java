@@ -34,12 +34,20 @@ public class User {
 
     public static User createUser() {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("input Name: ");
-        String name = scanner.nextLine();
-        System.out.println("input Last Name: ");
-        String lastName = scanner.nextLine();
-
-        return  new User(name, lastName);
+        boolean bool = true;
+        String name = "";
+        String lastName = "";
+        while (bool) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("input Name: ");
+            name = scanner.nextLine();
+            System.out.println("input Last Name: ");
+            lastName = scanner.nextLine();
+            if (name.length() > 1 || lastName.length() > 1) {
+                return new User(name, lastName);
+            }
+            System.out.println("Enter valid name or lastname!");
+        }
+        return new User(name, lastName);
     }
 }

@@ -10,7 +10,7 @@ public enum PhoneNumberType {
 
     public static PhoneNumberType selectPhoneNumberType() {
         System.out.println("Select phone number type:");
-        System.out.println("0 - Not specified");
+        System.out.println("0 - Not selected");
         System.out.println("1 - Home");
         System.out.println("2 - Mobile");
         System.out.println("3 - Work");
@@ -33,7 +33,7 @@ public enum PhoneNumberType {
             case "4":
                 return PhoneNumberType.SCHOOL;
             default:
-                System.out.println("Please enter a correct phone number type:");
+                System.out.println("Enter a correct phone number type.");
                 return selectPhoneNumberType();
         }
     }

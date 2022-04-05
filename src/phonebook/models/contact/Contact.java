@@ -7,7 +7,6 @@ public class Contact {
 
     private ArrayList<PhoneNumber> phoneNumbers;
     private Email email;
-
     private String company;
 
     public Contact(ArrayList<PhoneNumber> phoneNumbers, Email email, String company) {
@@ -40,56 +39,41 @@ public class Contact {
         this.company = company;
     }
 
-
     @Override
     public String toString() {
-
-        StringBuilder s = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         for (PhoneNumber phoneNumber : phoneNumbers) {
-            s.append(phoneNumber).append('\n');
+            str.append(phoneNumber).append('\n');
         }
-
         if (!Email.isEmail(email.getEmail())) {
-            return s + company;
-        } else return s + email.toString() + '\n' + company;
+            if (company == null || company.length() == 0) {
+                return str + "" + '\n';
+            }
+            return str + "Company: " + company + '\n';
+        } else if (company == null || company.length() == 0) {
+            return str + email.toString() + '\n' + "Company: " + company + '\n';
+        }
+        return str + email.toString() + '\n' + "Company: " + company + '\n';
     }
 
     public static Contact createContact() {
-
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Creating contact");
+        System.out.println("Creating a contact");
         ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(PhoneNumber.createPhoneNumber());
-
-
         while (true) {
-            System.out.println("do you want to input another phone number? ");
+            System.out.println("Would you like to add another phone number?");
             String str = scanner.nextLine();
-            if (str.equals("no")) {
+            if (str.toLowerCase().equals("no")) {
                 break;
             }
-            if (str.equals("yes")) {
+            if (str.toLowerCase().equals("yes")) {
                 phoneNumbers.add(PhoneNumber.createPhoneNumber());
             }
         }
-
         Email email = Email.createEmail();
-        String company = "";
-
-        while (true) {
-            System.out.println("do you want to input company? ");
-            String str = scanner.nextLine();
-            if (str.equals("no")) {
-                break;
-            }
-            if (str.equals("yes")) {
-                System.out.println("Enter company: ");
-                company = scanner.nextLine();
-                break;
-            }
-        }
-
-
+        System.out.println("Enter company:");
+        String company = scanner.nextLine();
         return new Contact(phoneNumbers, email, company);
     }
 }

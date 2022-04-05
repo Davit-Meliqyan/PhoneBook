@@ -37,6 +37,6 @@ public class ContactData {
     }
 
     public static ContactData createContactData() {
-            return new ContactData( User.createUser(),Contact.createContact());
-        }
+        return new ContactData( User.createUser(),Contact.createContact());
+    }
 }

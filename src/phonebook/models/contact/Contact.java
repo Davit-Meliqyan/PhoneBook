@@ -1,6 +1,7 @@
 package phonebook.models.contact;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Contact {
@@ -63,11 +64,11 @@ public class Contact {
         phoneNumbers.add(PhoneNumber.createPhoneNumber());
         while (true) {
             System.out.println("Would you like to add another phone number?");
-            String str = scanner.nextLine();
-            if (str.toLowerCase().equals("no")) {
+            String str = scanner.nextLine().toLowerCase(Locale.ROOT);
+            if (str.equals("no")) {
                 break;
             }
-            if (str.toLowerCase().equals("yes")) {
+            if (str.equals("yes")) {
                 phoneNumbers.add(PhoneNumber.createPhoneNumber());
             }
         }

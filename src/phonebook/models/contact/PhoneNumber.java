@@ -42,14 +42,14 @@ public class PhoneNumber {
         String phoneNumber = "";
 
 
-        System.out.println("Input phone number:");
+        System.out.println("input phone number: ");
 
         while (true) {
             phoneNumber = scanner.nextLine();
             if (isPhoneNumber(phoneNumber)) {
                 break;
             }
-            System.out.println("Illegal phone number, please enter a correct phone number:");
+            System.out.println("Not legal phone number. Enter correct phone number! ");
         }
         PhoneNumberType phoneNumberType = PhoneNumberType.selectPhoneNumberType();
 

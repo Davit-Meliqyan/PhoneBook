@@ -33,11 +33,13 @@ public class User {
     }
 
     public static User createUser() {
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Input Name:");
+        System.out.println("input Name: ");
         String name = scanner.nextLine();
-        System.out.println("Input Last Name:");
+        System.out.println("input Last Name: ");
         String lastName = scanner.nextLine();
+
         return  new User(name, lastName);
     }
 }

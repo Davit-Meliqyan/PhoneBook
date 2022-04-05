@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Contact {
+
     private ArrayList<PhoneNumber> phoneNumbers;
     private Email email;
+
     private String company;
 
     public Contact(ArrayList<PhoneNumber> phoneNumbers, Email email, String company) {
@@ -53,34 +55,41 @@ public class Contact {
     }
 
     public static Contact createContact() {
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Creating contact");
         ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         phoneNumbers.add(PhoneNumber.createPhoneNumber());
+
+
         while (true) {
-            System.out.println("Would you like to input another phone number?");
+            System.out.println("do you want to input another phone number? ");
             String str = scanner.nextLine();
-            if (str.toLowerCase().equals("no")) {
+            if (str.equals("no")) {
                 break;
             }
-            if (str.toLowerCase().equals("yes")) {
+            if (str.equals("yes")) {
                 phoneNumbers.add(PhoneNumber.createPhoneNumber());
             }
         }
+
         Email email = Email.createEmail();
         String company = "";
+
         while (true) {
-            System.out.println("Would you like to input company?");
+            System.out.println("do you want to input company? ");
             String str = scanner.nextLine();
-            if (str.toLowerCase().equals("no")) {
+            if (str.equals("no")) {
                 break;
             }
-            if (str.toLowerCase().equals("yes")) {
+            if (str.equals("yes")) {
                 System.out.println("Enter company: ");
                 company = scanner.nextLine();
                 break;
             }
         }
+
+
         return new Contact(phoneNumbers, email, company);
     }
 }

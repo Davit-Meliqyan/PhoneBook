@@ -36,7 +36,7 @@ public class Service {
                     print(phoneBook);
                     break;
                 case "update":
-                    System.out.println();
+                    update(phoneBook);
                     break;
                 case "help":
                     help();
@@ -93,21 +93,6 @@ public class Service {
         return searchResult;
     }
 
-    public static void update(ArrayList<ContactData> phoneBook) {
-
-        ArrayList<ContactData> search = search(phoneBook);
-        if (search.size() > 1) {
-            ContactData contactData = selectPosition(search);
-            if (contactData != null) {
-                for (int i = 0; i < phoneBook.size(); i++) {
-                    if (phoneBook.get(i).equals(contactData)) {
-
-                    }
-                }
-            }
-        }
-    }
-
     public static ArrayList<ContactData> searchFromNumber(ArrayList<ContactData> phoneBook) {
         System.out.println("Input required number: ");
         String number = scanner.nextLine();
@@ -124,6 +109,75 @@ public class Service {
         }
         return searchResult;
     }
+
+    public static void update(ArrayList<ContactData> phoneBook) {
+
+        ArrayList<ContactData> search = search(phoneBook);
+        if (search.size() > 1) {
+            ContactData contactData = selectPosition(search);
+            if (contactData != null) {
+                for (int i = 0; i < phoneBook.size(); i++) {
+                    if (phoneBook.get(i).equals(contactData)) {
+                        String str = "";
+                        while (!str.equals("save")) {
+                            System.out.println("how to update an old contact! ");
+                            str = scanner.nextLine();
+                            str = str.toLowerCase(Locale.ROOT);
+                            switch (str) {
+                                case "all":
+                                case "1":
+                                    ContactData temp = ContactData.createContactData();
+                                    phoneBook.set(i, temp);
+                                    System.out.println("Contact is updated");
+                                    break;
+                                case "user":
+                                case "2":
+                                    User tempUser = User.createUser();
+                                    phoneBook.get(i).setUser(tempUser);
+                                    System.out.println("Contact is updated");
+                                default:
+                                    System.out.println("not legal command");
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (search.size() == 0) {
+            System.out.println("Contact not found!");
+        } else {
+            for (int i = 0; i < phoneBook.size(); i++) {
+                if (phoneBook.get(i).equals(search.get(0))) {
+                    String str = "";
+                    while (!str.equals("save")) {
+                        System.out.println("how to update an old contact! ");
+                        str = scanner.nextLine();
+                        str = str.toLowerCase(Locale.ROOT);
+                        switch (str) {
+                            case "all":
+                            case "1":
+                                ContactData temp = ContactData.createContactData();
+                                phoneBook.set(i, temp);
+                                System.out.println("Contact is updated");
+                                break;
+                            case "user":
+                            case "2":
+                                User tempUser = User.createUser();
+                                phoneBook.get(i).setUser(tempUser);
+                                System.out.println("Contact is updated");
+                                break;
+
+
+                            case "save":
+                                break;
+                            default:
+                                System.out.println("not legal command");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     public static void delete(ArrayList<ContactData> phoneBook) {
 
@@ -204,6 +258,17 @@ public class Service {
                 System.out.println(c);
             }
         }
+    }
+
+    public static void helpUpdate() {
+        System.out.println("Command list");
+        System.out.println("Type 0, or \"save\" to save a contact");
+        System.out.println("Type 1, or \"all\" \\ \"update all\" to create a contact");
+        System.out.println("Type 2, or \"user\" \\ \"remove\"to delete a contact");
+        System.out.println("Type 3, or \"print\" \\ \"show\" to print info about a contact");
+        System.out.println("Type 4, or \"update\" \\");
+        System.out.println("Type 5, or help for help");
+        System.out.println("Type 6, or \"search\" to search for a contact");
     }
 
     public static void help() {

@@ -1,5 +1,10 @@
 package phonebook.models.contact;
 
+import phonebook.models.ContactData;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class PhoneNumber {
@@ -73,4 +78,26 @@ public class PhoneNumber {
         }
         return true;
     }
+
+    public static PhoneNumber selectPhoneNumber(ArrayList<PhoneNumber> phoneNumbers) {
+
+        Map<Integer, PhoneNumber> searchMap = new HashMap<>();
+        for (int i = 0; i < phoneNumbers.size(); i++) {
+            searchMap.put(i + 1, phoneNumbers.get(i));
+        }
+        for (Map.Entry<Integer, PhoneNumber> m : searchMap.entrySet()) {
+            System.out.print(m.getKey() + " " + m.getValue());
+            System.out.println();
+        }
+        System.out.println("Input the position number of selected phone number: ");
+        Scanner sc = new Scanner(System.in);
+        Integer pos = sc.nextInt();
+        if (pos > 0 && pos < searchMap.size() + 1) {
+            return searchMap.get(pos);
+        }
+        System.out.println("Phone number not found!");
+        return null;
+    }
 }
+
+

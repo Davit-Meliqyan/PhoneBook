@@ -1,10 +1,11 @@
 package phonebook.models.contact;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Contact {
+public class Contact implements Serializable {
 
     private ArrayList<PhoneNumber> phoneNumbers;
     private Email email;

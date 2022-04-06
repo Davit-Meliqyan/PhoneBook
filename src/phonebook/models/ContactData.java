@@ -3,7 +3,9 @@ package phonebook.models;
 import phonebook.models.contact.Contact;
 import phonebook.models.user.User;
 
-public class ContactData {
+import java.io.Serializable;
+
+public class ContactData implements Serializable {
     private User user;
     private Contact contact;
 

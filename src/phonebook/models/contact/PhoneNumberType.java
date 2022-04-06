@@ -1,8 +1,9 @@
 package phonebook.models.contact;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public enum PhoneNumberType {
+public enum PhoneNumberType implements Serializable {
     HOME,
     MOBILE,
     WORK,

@@ -6,14 +6,20 @@ import phonebook.models.contact.Email;
 import phonebook.models.contact.PhoneNumber;
 import phonebook.models.user.User;
 
+import java.io.*;
 import java.util.*;
 
-public class Service {
+public class Service implements Serializable {
 
     static Scanner scanner = new Scanner(System.in);
 
-    public static void start() {
+    public static void start() throws Exception {
+
         ArrayList<ContactData> phoneBook = new ArrayList<>();
+        File file = new File("src/phonebook/resources/res.txt");
+        if (file.length() != 0) {
+            phoneBook = inputFile(phoneBook, file);
+        }
         String str = "";
         while (!str.equals("exit")) {
             System.out.println("Enter command:");
@@ -52,6 +58,8 @@ public class Service {
                     print(searchFromNumber(phoneBook));
                     break;
                 case "exit":
+                    outputFile(phoneBook);
+                    break;
                 case "0":
                     break;
                 default:
@@ -102,7 +110,6 @@ public class Service {
         String number = scanner.nextLine();
         ArrayList<ContactData> searchResult = new ArrayList<>();
         for (ContactData c : phoneBook) {
-            User user = c.getUser();
             Contact contact = c.getContact();
             for (PhoneNumber p : contact.getPhoneNumbers()) {
                 if (p.getPhoneNumber().equals(number)) {
@@ -139,7 +146,7 @@ public class Service {
                     switch (str) {
                         case "all":
                         case "1":
-                            phoneBook.set(i,ContactData.createContactData());
+                            phoneBook.set(i, ContactData.createContactData());
                             break;
                         case "user":
                         case "2":
@@ -248,6 +255,36 @@ public class Service {
                 System.out.println(c);
             }
         }
+    }
+
+    public static ArrayList<ContactData> inputFile(ArrayList<ContactData> phoneBook, File file) throws Exception {
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+            while (true) {
+                try {
+                    phoneBook.add((ContactData) objectInputStream.readObject());
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return phoneBook;
+    }
+
+    public static void outputFile(ArrayList<ContactData> phoneBook) throws Exception {
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("src/phonebook/resources/res.txt"));
+            for (ContactData c : phoneBook) {
+                objectOutputStream.writeObject(c);
+            }
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("saving to file");
     }
 
     public static void helpUpdate() {

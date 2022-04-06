@@ -2,12 +2,13 @@ package phonebook.models.contact;
 
 import phonebook.models.ContactData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class PhoneNumber {
+public class PhoneNumber implements Serializable {
     private String phoneNumber;
     private PhoneNumberType phoneNumberType;
 

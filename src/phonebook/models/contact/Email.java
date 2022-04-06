@@ -1,8 +1,9 @@
 package phonebook.models.contact;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Email {
+public class Email implements Serializable {
     private String email;
     private String emailType;
 

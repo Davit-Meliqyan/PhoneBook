@@ -1,8 +1,9 @@
 package phonebook.models.user;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String lastName;
 

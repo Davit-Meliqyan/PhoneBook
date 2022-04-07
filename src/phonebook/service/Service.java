@@ -8,21 +8,29 @@ import phonebook.models.user.User;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Service implements Serializable {
 
     static Scanner scanner = new Scanner(System.in);
 
     public static void start() throws Exception {
-
         ArrayList<ContactData> phoneBook = new ArrayList<>();
         File file = new File("src/phonebook/resources/res.txt");
         if (file.length() != 0) {
             phoneBook = inputFile(phoneBook, file);
         }
+        System.out.println("Type \"help\" to see available commands.");
+        int illegalCount = 0;
+        int commandCount = 0;
         String str = "";
         while (!str.equals("exit")) {
-            System.out.println("Enter command:");
+            if (commandCount < 4) {
+                System.out.println("Enter command:");
+                commandCount++;
+            }
             str = scanner.nextLine();
             str = str.toLowerCase(Locale.ROOT);
             switch (str) {
@@ -30,20 +38,24 @@ public class Service implements Serializable {
                 case "add":
                 case "1":
                     create(phoneBook);
+                    illegalCount = 0;
                     break;
                 case "delete":
                 case "remove":
                 case "2":
                     delete(phoneBook);
+                    illegalCount = 0;
                     break;
                 case "print":
                 case "show":
                 case "3":
                     print(phoneBook);
+                    illegalCount = 0;
                     break;
                 case "update":
                 case "4":
                     update(phoneBook);
+                    illegalCount = 0;
                     break;
                 case "help":
                 case "5":
@@ -52,18 +64,30 @@ public class Service implements Serializable {
                 case "search":
                 case "6":
                     print(search(phoneBook));
+                    illegalCount = 0;
                     break;
                 case "search number":
                 case "7":
                     print(searchFromNumber(phoneBook));
+                    illegalCount = 0;
                     break;
                 case "exit":
-                    outputFile(phoneBook);
-                    break;
                 case "0":
+                    outputFile(phoneBook);
                     break;
                 default:
                     System.out.println("Illegal command.");
+                    illegalCount++;
+                    if (illegalCount == 4) {
+                        reverseTimer();
+                        System.out.println("Too many illegal commands: application frozen for 5 seconds.");
+                        System.out.println("1 more illegal command will exit the application.");
+                        System.out.println("Enter command in 5 seconds:");
+                        break;
+                    }
+                    if (illegalCount > 4) {
+                        str = "exit";
+                    }
             }
             System.out.println();
         }
@@ -121,7 +145,7 @@ public class Service implements Serializable {
         return searchResult;
     }
 
-    public static void update(ArrayList<ContactData> phoneBook) {
+    public static void update(ArrayList<ContactData> phoneBook) throws InterruptedException {
         ArrayList<ContactData> search = search(phoneBook);
         if (search.size() == 0) {
             System.out.println("Contact not found.");
@@ -135,23 +159,31 @@ public class Service implements Serializable {
         updateContactData(contactData, phoneBook);
     }
 
-    public static void updateContactData(ContactData contactData, ArrayList<ContactData> phoneBook) {
+    public static void updateContactData(ContactData contactData, ArrayList<ContactData> phoneBook) throws InterruptedException {
         for (int i = 0; i < phoneBook.size(); i++) {
             if (phoneBook.get(i).equals(contactData)) {
+                int illegalCount = 0;
                 String str = "";
+                System.out.println("How would you like to update the contact data?");
+                helpUpdate();
                 while (!str.equals("save")) {
-                    System.out.println("How would you like to update the contact data?");
                     str = scanner.nextLine();
                     str = str.toLowerCase(Locale.ROOT);
                     switch (str) {
                         case "all":
                         case "1":
                             phoneBook.set(i, ContactData.createContactData());
+                            illegalCount = 0;
+                            System.out.println("Save changes, or continue?");
+                            System.out.println("Enter command:");
                             break;
                         case "user":
                         case "2":
                             User tempUser = User.createUser();
                             phoneBook.get(i).setUser(tempUser);
+                            illegalCount = 0;
+                            System.out.println("Save changes, or continue?");
+                            System.out.println("Enter command:");
                             break;
                         case "number":
                         case "3":
@@ -163,7 +195,10 @@ public class Service implements Serializable {
                                 case "add":
                                     PhoneNumber tempPN1 = PhoneNumber.createPhoneNumber();
                                     phoneBook.get(i).getContact().getPhoneNumbers().add(tempPN1);
+                                    illegalCount = 0;
                                     System.out.println("A new number has been added.");
+                                    System.out.println("Save changes, or continue?");
+                                    System.out.println("Enter command:");
                                     break;
                                 case "update":
                                     ArrayList<PhoneNumber> tempArray = phoneBook.get(i).getContact().getPhoneNumbers();
@@ -174,7 +209,10 @@ public class Service implements Serializable {
                                             break;
                                         }
                                     }
+                                    illegalCount = 0;
                                     System.out.println("The number has been updated.");
+                                    System.out.println("Save changes, or continue?");
+                                    System.out.println("Enter command:");
                                     break;
                             }
                             break;
@@ -182,24 +220,48 @@ public class Service implements Serializable {
                         case "4":
                             Email tempEmail = Email.createEmail();
                             phoneBook.get(i).getContact().setEmails(tempEmail);
+                            illegalCount = 0;
                             System.out.println("Email has been updated.");
+                            System.out.println("Save changes, or continue?");
+                            System.out.println("Enter command:");
                             break;
                         case "company":
                         case "5":
                             System.out.println("Enter new company name:");
                             str = scanner.nextLine();
                             phoneBook.get(i).getContact().setCompany(str);
+                            illegalCount = 0;
                             System.out.println("Company has been updated.");
+                            System.out.println("Save changes, or continue?");
+                            System.out.println("Enter command:");
                             break;
                         case "help":
                         case "6":
+                            illegalCount = 0;
                             helpUpdate();
                             break;
+                        case "continue":
+                            illegalCount = 0;
+                            System.out.println("Enter command:");
+                            break;
                         case "save":
+                            illegalCount = 0;
                             System.out.println("The contact is updated.");
                             break;
                         default:
                             System.out.println("Illegal command.");
+                            illegalCount++;
+                            if (illegalCount == 4) {
+                                System.out.println("Too many illegal commands: update function frozen for 5 seconds.");
+                                System.out.println("1 more command will automatically end the update function.");
+                                System.out.println("Enter command in 5 seconds:");
+                                reverseTimer();
+                                break;
+                            }
+                            if (illegalCount > 4) {
+                                System.out.println("Saving changes");
+                                str = "save";
+                            }
                     }
                 }
             }
@@ -291,8 +353,10 @@ public class Service implements Serializable {
         System.out.println("Command list");
         System.out.println("Type 1, or \"all\" to update all info");
         System.out.println("Type 2, or \"user\" to update name and last name");
-        System.out.println("Type 4, or \" number\" to update number");
-        System.out.println("Type 5, or \" number\" to update number");
+        System.out.println("Type 3, or \"number\" to add, or update number");
+        System.out.println("Type 4, or \"email\" to update email");
+        System.out.println("Type 5, or \"company\" to update company info");
+        System.out.println("Type \"save\" to complete updating");
     }
 
     public static void help() {
@@ -305,5 +369,21 @@ public class Service implements Serializable {
         System.out.println("Type 6, or \"search\" to search for a contact");
         System.out.println("Type 7, or \"search number\" to search from a number");
         System.out.println("Type 0, or \"exit\" to create a contact");
+    }
+
+    public static void reverseTimer() {
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        final Runnable runnable = new Runnable() {
+            int countdownStarter = 5;
+
+            public void run() {
+                System.out.println(countdownStarter);
+                countdownStarter--;
+                if (countdownStarter < 1) {
+                    scheduler.shutdown();
+                }
+            }
+        };
+        scheduler.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
     }
 }

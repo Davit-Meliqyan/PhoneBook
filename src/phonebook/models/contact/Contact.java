@@ -49,7 +49,7 @@ public class Contact implements Serializable {
         }
         if (!Email.isEmail(email.getEmail())) {
             if (company == null || company.length() == 0) {
-                return str + "" + '\n';
+                return str + "";
             }
             return str + "Company: " + company + '\n';
         } else if (company == null || company.length() == 0) {

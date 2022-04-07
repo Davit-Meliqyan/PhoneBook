@@ -33,10 +33,10 @@ public class Email implements Serializable {
 
     @Override
     public String toString() {
-        if(email == null){
+        if (email == null) {
             return null;
         }
-        return "Email: "+email + "\n" + "Email type: "+emailType;
+        return "Email: " + email + "\n" + "Email type: " + emailType;
     }
 
     static Scanner scanner = new Scanner(System.in);
@@ -64,10 +64,16 @@ public class Email implements Serializable {
                 || email.charAt(email.length() - 1) == '@' || email.charAt(email.length() - 1) == '.') {
             return false;
         }
+        if (email.substring(email.indexOf('@'), email.indexOf('.')).length() <= 1) {
+            return false;
+        }
         return email.indexOf('.') == email.lastIndexOf('.') && email.indexOf('@') == email.lastIndexOf('@');
     }
 
     public static String emailType(String email) {
-        return email.substring(email.indexOf('@') + 1);
+        if (email.substring(email.indexOf('@') + 1).equals("mail.ru")) {
+            return "MAIL.RU";
+        } else
+            return email.substring(email.indexOf('@') + 1, email.indexOf('.')).toUpperCase();
     }
 }
